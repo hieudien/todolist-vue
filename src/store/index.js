@@ -6,43 +6,27 @@ Vue.use(VueX)
 export const store = new VueX.Store({
     state: {
         todoList: [],
-        doneList: [],
+        filterMode: "all"
     },
     mutations: {
         addItem(state, newItem) {
             state.todoList.push(newItem)
         },
-        markAsDone(state, item) {
-            // remove from todoList
-            state.todoList = removeItem(state.todoList, item)
-            // push to doneList
-            state.doneList.push(item)
+        updateItem(state, item) {
+            // update item status
+            let toUpdateItem = state.todoList.find(e => e._id === item._id)
+            toUpdateItem.isDone = item.isDone
         },
-        markAsNotDone(state, item) {
-            // remove from doneList
-            state.doneList = removeItem(state.doneList, item)
-             // push to todoList
-            state.todoList.push(item)
-        },
+
         removeItem(state, item) {
-            if(item.isDone) {
-                // if isDone = true, remove from doneList
-                state.doneList = removeItem(state.doneList, item)
-            } else {
-                // else remove from todoList
-                state.todoList = removeItem(state.todoList, item)
-            }
+            // else remove from todoList
+            state.todoList = state.todoList.filter(e => !(item._id === e._id))
         },
+
+        updateFilterMode(state, mode) {
+            // update filter mode
+            state.filterMode = mode
+        }
         
     }
 })
-
-/**
- * Remove Item from list
- * @param {*} list to remove from
- * @param {*} item to remove
- * @returns removed list
- */
-function removeItem(list, item) {
-    return list.filter(e => !(item._id === e._id))
-}

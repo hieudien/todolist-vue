@@ -1,6 +1,6 @@
 <template>
     <li>
-        <img v-bind:class="item.isDone ? 'redone-img' : ''" v-bind:src="this.doneImgSrc" alt="Mark as Done" v-bind:id="item.id" v-on:click="updateItemStatus">
+        <img v-bind:class="!item.isDone ? 'black-img' : ''" v-bind:src="this.doneImgSrc" v-bind:id="item.id" v-on:click="updateItemStatus">
         <img v-bind:src="this.deleteImgSrc" alt="Delete Item" v-bind:id="item.id" v-on:click="deleteItem">
         {{ item.name }}
     </li>
@@ -22,17 +22,17 @@
         },
         methods: {
              // map mutation method of vuex store
-            ...mapMutations(["removeItem", "markAsDone", "markAsNotDone"]),
+            ...mapMutations(["removeItem", "updateItem"]),
             // update Item
             updateItemStatus: function() {
                 axios.patch(process.env.VUE_APP_API_URL + '/item/' + this.item._id, {isDone: !this.item.isDone}).then((res) => {
                     alert("Item updated")
                     const item = res.data
                     // update vuex store
-                    if(item.isDone) {
-                        this.markAsDone(item)
-                    } else {
-                        this.markAsNotDone(item)
+                    this.updateItem(item)
+                    if (this.filterMode !== "all") {
+                        // remove from vuex store
+                        this.removeItem(this.item)
                     }
                 })
             },
@@ -44,7 +44,13 @@
                     this.removeItem(this.item)
                 })
             }
-        }
+        },
+        computed: {
+            // map vuex store state to component props
+            filterMode () {
+                return this.$store.state.filterMode
+            },
+        },
     }
 </script>
 
@@ -55,7 +61,7 @@
         cursor: pointer;
     }
     /* make image as black and white */
-    .redone-img {
+    .black-img {
         -webkit-filter: grayscale(100%);
         filter: grayscale(100%);
     }

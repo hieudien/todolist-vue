@@ -24,11 +24,19 @@ export default {
             if(this.itemName) {
                 axios.post(process.env.VUE_APP_API_URL + '/item', {name: this.itemName}).then((res) => {
                     alert("Item created")
-                    // add to vuex store
-                    this.addItem(res.data)
+                    if (this.filterMode !== "done") {
+                        // add to vuex store
+                        this.addItem(res.data)
+                    }
                 })
             }
         }
-    }
+    },
+    computed: {
+        // map vuex store state to component props
+        filterMode () {
+            return this.$store.state.filterMode
+        },
+    },
 }
 </script>
