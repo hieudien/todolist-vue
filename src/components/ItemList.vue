@@ -10,7 +10,7 @@
             <label :for="option.key">{{ option.text }}</label>
         </span>
 
-        <h1>To do list:</h1>
+        <h2>To do list:</h2>
         <div>
             <ul id="list">
                 <Item v-for="item in todoList" v-bind:item="item" v-bind:key="item.id" />
