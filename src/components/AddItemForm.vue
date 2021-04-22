@@ -11,13 +11,12 @@
 import axios from "axios"
 import { mapMutations } from 'vuex'
 
-let itemImg = { name: null, content: null }
-
 export default {
     name: 'AddItemForm',
     data: function () {
         return {
             itemName: null,
+            itemImg: null,
             error: null
         }
     },
@@ -28,7 +27,10 @@ export default {
         addNewItem: function () {
             if(this.itemName) {
                 this.error = null
-                axios.post(process.env.VUE_APP_API_URL + '/item', { name: this.itemName, image: itemImg }).then((res) => {
+                const formData = new FormData()
+                formData.append("name", this.itemName)
+                formData.append("image", this.itemImg, this.itemName.name)
+                axios.post(process.env.VUE_APP_API_URL + '/item', formData).then((res) => {
                     if (this.filterMode !== "done") {
                         // add to vuex store
                         this.addItem(res.data)
@@ -39,20 +41,7 @@ export default {
             }
         },
         onFileSelected: function (event) {
-            const file = event?.target?.files[0]
-            if (file) {
-                const reader = new FileReader()
-                reader.onload = function() {
-                     itemImg = {
-                         name: file.name,
-                         content: reader.result
-                     }
-                }
-                reader.onerror = function() {
-                    console.log('there are some problems')
-                }
-                reader.readAsDataURL(file)
-            }
+            this.itemImg = event?.target?.files[0]
         }
     },
     computed: {

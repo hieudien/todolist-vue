@@ -4,7 +4,7 @@
             <img v-bind:class="!item.isDone ? 'black-img' : ''" v-bind:src="this.doneImgSrc" v-bind:id="item.id" v-on:click="updateItemStatus">
             <img v-bind:src="this.deleteImgSrc" alt="Delete Item" v-bind:id="item.id" v-on:click="deleteItem">
             {{ item.name }}
-            <img v-if="item.image" :src="item.image.content" :style="!item.image.content ? 'display:none' : ''" alt="">
+            <img v-if="item" :src="this.API_URL + '/images/' + item.image" :style="!item.image ? 'display:none' : ''" alt="">
         </span>
     </li>
 </template>
@@ -21,6 +21,7 @@
                 // image source
                 doneImgSrc: "https://icon-library.com/images/all-done-icon/all-done-icon-7.jpg",
                 deleteImgSrc: "https://cdn.iconscout.com/icon/premium/png-512-thumb/delete-1432400-1211078.png",
+                API_URL: process.env.VUE_APP_API_URL
             }
         },
         methods: {
@@ -28,7 +29,7 @@
             ...mapMutations(["removeItem", "updateItem"]),
             // update Item
             updateItemStatus: function() {
-                axios.patch(process.env.VUE_APP_API_URL + '/item/' + this.item._id, {isDone: !this.item.isDone}).then((res) => {
+                axios.patch(this.API_URL + '/item/' + this.item._id, {isDone: !this.item.isDone}).then((res) => {
                     const item = res.data
                     // update vuex store
                     this.updateItem(item)
@@ -40,7 +41,7 @@
             },
             // delete Item
             deleteItem: function() {
-                 axios.delete(process.env.VUE_APP_API_URL + '/item/' + this.item._id).then(() => {
+                 axios.delete(this.API_URL + '/item/' + this.item._id).then(() => {
                     // remove from vuex store
                     this.removeItem(this.item)
                 })
