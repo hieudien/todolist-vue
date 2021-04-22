@@ -1,8 +1,11 @@
 <template>
     <li>
-        <img v-bind:class="!item.isDone ? 'black-img' : ''" v-bind:src="this.doneImgSrc" v-bind:id="item.id" v-on:click="updateItemStatus">
-        <img v-bind:src="this.deleteImgSrc" alt="Delete Item" v-bind:id="item.id" v-on:click="deleteItem">
-        {{ item.name }}
+        <span>
+            <img v-bind:class="!item.isDone ? 'black-img' : ''" v-bind:src="this.doneImgSrc" v-bind:id="item.id" v-on:click="updateItemStatus">
+            <img v-bind:src="this.deleteImgSrc" alt="Delete Item" v-bind:id="item.id" v-on:click="deleteItem">
+            {{ item.name }}
+            <img v-if="item.image" :src="item.image.content" :style="!item.image.content ? 'display:none' : ''" alt="">
+        </span>
     </li>
 </template>
 
@@ -26,7 +29,6 @@
             // update Item
             updateItemStatus: function() {
                 axios.patch(process.env.VUE_APP_API_URL + '/item/' + this.item._id, {isDone: !this.item.isDone}).then((res) => {
-                    alert("Item updated")
                     const item = res.data
                     // update vuex store
                     this.updateItem(item)
@@ -39,7 +41,6 @@
             // delete Item
             deleteItem: function() {
                  axios.delete(process.env.VUE_APP_API_URL + '/item/' + this.item._id).then(() => {
-                    alert("Item removed")
                     // remove from vuex store
                     this.removeItem(this.item)
                 })
