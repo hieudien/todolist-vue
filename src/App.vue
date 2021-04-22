@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <AddItemForm/>
-    <ItemList/>
+  <div id="app" class="row">
+    <div class="column"><AddItemForm/></div>
+    <div class="column"><ItemList/></div>
   </div>
 </template>
 
@@ -25,10 +25,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
-  padding-left: 40%;
 }
 img {
   width: 50px;
   height: 50px;
+}
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
 }
 </style>

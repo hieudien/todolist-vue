@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding-left: 50%;">
         <span v-if="error" style="color: red">{{ error.message }}</span><br/><br/>
         <input type="text" id="name" v-model="itemName" required placeholder="Enter Text"><br/><br/>
         <input type="file" ref="imageInput" accept="image/*" v-on:change="onFileSelected"><br/><br/>
@@ -41,6 +41,7 @@ export default {
             } else {
                 this.error = { message: "Please enter some text" }
             }
+            // reset form
             this.itemName = null
             this.itemImg = null
             this.$refs.imageInput.value = null

@@ -12,7 +12,7 @@
 
         <h2>To do list:</h2>
         <div>
-            <ul id="list">
+            <ul id="list" style="width: 200px; height: 400px; overflow: auto">
                 <Item v-for="item in todoList" v-bind:item="item" v-bind:key="item.id" />
             </ul>
         </div>
