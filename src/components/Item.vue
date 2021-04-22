@@ -4,7 +4,7 @@
             <img v-bind:class="!item.isDone ? 'black-img' : ''" v-bind:src="this.doneImgSrc" v-bind:id="item.id" v-on:click="updateItemStatus">
             <img v-bind:src="this.deleteImgSrc" alt="Delete Item" v-bind:id="item.id" v-on:click="deleteItem">
             {{ item.name }}
-            <img v-if="item" :src="this.API_URL + '/images/' + item.image" :style="!item.image ? 'display:none' : ''" alt="">
+            <img v-if="item.image" :src="this.API_URL + '/images/' + item.image" alt="">
         </span>
     </li>
 </template>
