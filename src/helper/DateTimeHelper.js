@@ -21,6 +21,10 @@ export function calculateExpiredTime (data) {
  * @returns item with calculated data
  */
 function calculateDuration(item) {
+    if (!item.expiredDateTime) {
+        item.expiredIn = '-'
+        return item
+    }
     let diffTime = item.expiredDateTime ? (moment(item.expiredDateTime).diff(moment.utc(), 'minutes')) : null
     if (diffTime > 0) {
         const duration = moment.duration(diffTime, 'minutes')

@@ -1,21 +1,26 @@
 <template>
-    <div>
-        <span v-for="option in this.radioOptions" v-bind:key="option.key">
-            <input type="radio" 
-            :id="option.key" 
-            name="filter" 
-            :value="option.key" 
-            :checked="option.key === 'all' ? true: false" 
-            v-on:click="doFilter(option.key)">
-            <label :for="option.key">{{ option.text }}</label>
-        </span>
-
-        <h2>To do list:</h2>
+    <div class="list-container">
+        
+        <div class="row">
+            <div class="col"><h2>To do list:</h2></div>
+            <div class="col radio-area">
+                <span v-for="option in this.radioOptions" v-bind:key="option.key">
+                    <input type="radio" 
+                    :id="option.key" 
+                    name="filter" 
+                    :value="option.key" 
+                    :checked="option.key === 'all' ? true: false" 
+                    v-on:click="doFilter(option.key)">
+                    <label :for="option.key">{{ option.text }}</label>
+                </span>
+            </div>
+        </div>
+        
         <div class="scroll-able">
             <table>
                 <col width="50px" />
-                <col width="500px" />
-                <col width="100px" />
+                <col width="300px" />
+                <col width="200px" />
                 <tr>
                     <th>Action</th>
                     <th>Items</th>
@@ -96,9 +101,12 @@ function getToDoList(filter) {
 </script>
 
 <style>
+    .list-container {
+        padding: 2em 2em 2em 2em;
+    }
     .scroll-able {
-        width: 400px; height: 450px; overflow: auto;
-
+        height: 400px;
+        overflow: auto;
     }
     table {
         border-collapse: collapse;
@@ -109,5 +117,8 @@ function getToDoList(filter) {
     }
     table, th, td {
         border: solid 1px;
+    }
+    .radio-area {
+        padding: 1.5em 1em 1em 15em;
     }
 </style>

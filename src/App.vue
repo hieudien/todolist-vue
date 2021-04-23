@@ -36,5 +36,8 @@ img {
 
 .column {
   flex: 50%;
+  border: solid 2px;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 </style>

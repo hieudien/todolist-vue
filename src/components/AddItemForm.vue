@@ -1,11 +1,11 @@
 <template>
-    <div style="padding-left: 50%;">
+    <div class="form">
         <span v-if="error" style="color: red">{{ error.message }}</span><br/><br/>
         <input type="text" v-model="itemName" required placeholder="Enter Text"><br/><br/>
         <input type="datetime-local" v-model="expiredDateTime" min="2021-04-24T0:42"><br/><br/>
-        <img v-if="imgUrl" :src="imgUrl" alt=""><br/>
         <input type="file" ref="imageInput" accept="image/*" v-on:change="onFileSelected"><br/><br/>
         <button v-on:click="addNewItem">Add Item</button><br/><br/>
+        <img v-if="imgUrl" :src="imgUrl" alt=""><br/>
     </div>
 </template>
     
@@ -74,3 +74,17 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+    .form {
+        margin: 2em 10em 2em 10em;
+        padding: 1em 1em 1em 1em;
+        height: 80%;
+        border: solid 1px;
+    }
+    img {
+        width: 15em;
+        height: 15em;
+        border: solid 1px;
+    }
+</style>
