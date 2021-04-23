@@ -1,16 +1,21 @@
 <template>
-    <li>
-        <span>
+    <tr>
+        <td>
             <img v-bind:class="!item.isDone ? 'black-img' : ''" v-bind:src="this.doneImgSrc" v-bind:id="item.id" v-on:click="updateItemStatus">
             <img v-bind:src="this.deleteImgSrc" alt="Delete Item" v-bind:id="item.id" v-on:click="deleteItem">
+        </td>
+        <td>
             {{ item.name }}
             <img v-if="item.image" :src="this.API_URL + '/images/' + item.image" alt="">
-        </span>
-    </li>
+        </td>
+        <td>
+            <span v-if="item.expiredIn" :style="item.expiredIn === 'Expired' ? 'color:red' : '' ">{{ item.expiredIn }}</span>
+        </td>
+    </tr>
 </template>
 
 <script>
-    import axios from "axios"
+    import axios from 'axios'
     import { mapMutations } from 'vuex'
 
     export default {
@@ -21,7 +26,8 @@
                 // image source
                 doneImgSrc: "https://icon-library.com/images/all-done-icon/all-done-icon-7.jpg",
                 deleteImgSrc: "https://cdn.iconscout.com/icon/premium/png-512-thumb/delete-1432400-1211078.png",
-                API_URL: process.env.VUE_APP_API_URL
+                API_URL: process.env.VUE_APP_API_URL,
+                expiredIn: null
             }
         },
         methods: {
@@ -42,6 +48,7 @@
             // delete Item
             deleteItem: function() {
                  axios.delete(this.API_URL + '/item/' + this.item._id).then(() => {
+                     this.expiredDateTime = null
                     // remove from vuex store
                     this.removeItem(this.item)
                 })
@@ -51,7 +58,7 @@
             // map vuex store state to component props
             filterMode () {
                 return this.$store.state.filterMode
-            },
+            }
         },
     }
 </script>
@@ -66,5 +73,11 @@
     .black-img {
         -webkit-filter: grayscale(100%);
         filter: grayscale(100%);
+    }
+    td:nth-child(odd) {
+        text-align: center;
+    }
+     td:nth-child(even) {
+        padding-left: 1em;
     }
 </style>

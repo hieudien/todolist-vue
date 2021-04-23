@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import {store} from "./store"
+import {store} from './store'
 require('dotenv').config()
 
 Vue.config.productionTip = false
