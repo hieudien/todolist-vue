@@ -29,6 +29,10 @@
                 <Item v-for="item in todoList" v-bind:item="item" v-bind:key="item.id" />
             </table>
         </div>
+        <div class="func-area">
+            <a :href="this.API_URL + '/item/csv'"><button>Export CSV</button></a>
+            <button>Import</button>
+        </div>
     </div>
 </template>
 
@@ -58,6 +62,7 @@ export default {
 
     data: function() {
         return {
+            API_URL: process.env.VUE_APP_API_URL,
             // setup radio button options
             radioOptions: [
                 {
@@ -82,10 +87,10 @@ export default {
             this.updateFilterMode(key)
             // get list with filter
             getToDoList(key).then(res => {
-            // map to store
-            this.$store.state.todoList = calculateExpiredTime(res.data)
-        })
-        }
+                // map to store
+                this.$store.state.todoList = calculateExpiredTime(res.data)
+            }) 
+        },
     }
 }
 
@@ -120,5 +125,11 @@ function getToDoList(filter) {
     }
     .radio-area {
         padding: 1.5em 1em 1em 15em;
+    }
+    .func-area {
+        padding-top: 1em;
+    }
+    .func-area button:last-child {
+        margin-left: 1em;
     }
 </style>
