@@ -1,8 +1,8 @@
 <template>
     <div class="form">
         <span v-if="error" style="color: red">{{ error.message }}</span><br/><br/>
-        <input type="text" v-model="itemName" required placeholder="Enter Text"><br/><br/>
-        <input type="datetime-local" v-model="expiredDateTime" min="2021-04-24T0:42"><br/><br/>
+        <input type="text" v-model="itemName" required placeholder="Enter Text" style="width: 15.5em;"><br/><br/>
+        <input type="datetime-local" v-model="expires"><br/><br/>
         <input type="file" ref="imageInput" accept="image/*" v-on:change="onFileSelected"><br/><br/>
         <button v-on:click="addNewItem">Add Item</button><br/><br/>
         <img v-if="imgUrl" :src="imgUrl" alt=""><br/>
@@ -22,7 +22,7 @@ export default {
             itemName: null,
             itemImg: null,
             imgUrl: null,
-            expiredDateTime: null,
+            expires: null,
             error: null,
         }
     },
@@ -38,9 +38,9 @@ export default {
                 if(this.itemImg) {
                     formData.append("image", this.itemImg, this.itemName.name)
                 }
-                if (this.expiredDateTime) {
-                    if (moment(this.expiredDateTime).isAfter(moment())) {
-                        formData.append("expiredDateTime", this.expiredDateTime)
+                if (this.expires) {
+                    if (moment(this.expires).isAfter(moment())) {
+                        formData.append("expires", this.expires)
                     } else {
                         this.error = { message: "Invalid datetime, please pick time in future" }
                         return

@@ -48,7 +48,6 @@
             // delete Item
             deleteItem: function() {
                  axios.delete(this.API_URL + '/item/' + this.item._id).then(() => {
-                     this.expiredDateTime = null
                     // remove from vuex store
                     this.removeItem(this.item)
                 })

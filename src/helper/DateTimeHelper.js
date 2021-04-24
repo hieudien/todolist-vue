@@ -16,16 +16,16 @@ export function calculateExpiredTime (data) {
 }
 
 /**
- * calculate duration from now to item.expiredDateTime and set result to item
+ * calculate duration from now to item.expires and set result to item
  * @param {*} item 
  * @returns item with calculated data
  */
 function calculateDuration(item) {
-    if (!item.expiredDateTime) {
+    if (!item.expires) {
         item.expiredIn = '-'
         return item
     }
-    let diffTime = item.expiredDateTime ? (moment(item.expiredDateTime).diff(moment.utc(), 'minutes')) : null
+    let diffTime = item.expires ? (moment(item.expires).diff(moment.utc(), 'minutes')) : null
     if (diffTime > 0) {
         const duration = moment.duration(diffTime, 'minutes')
         item.expiredIn = ''
