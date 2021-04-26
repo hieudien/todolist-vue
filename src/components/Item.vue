@@ -43,6 +43,8 @@
                         // remove from vuex store
                         this.removeItem(this.item)
                     }
+                }).catch(err => {
+                    alert(err.message)
                 })
             },
             // delete Item
@@ -50,6 +52,8 @@
                  axios.delete(this.API_URL + '/item/' + this.item._id).then(() => {
                     // remove from vuex store
                     this.removeItem(this.item)
+                }).catch(err => {
+                    alert(err.message)
                 })
             }
         },

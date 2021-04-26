@@ -1,7 +1,8 @@
 <template>
     <div class="form">
         <span v-if="error" style="color: red">{{ error.message }}</span><br/><br/>
-        <input type="text" v-model="itemName" required placeholder="Enter Text" style="width: 15.5em;"><br/><br/>
+        <input type="text" v-model="itemName" required placeholder="Enter Text" style="width: 15.5em;"><br/>
+        <p>Select expires:</p>
         <input type="datetime-local" v-model="expires"><br/><br/>
         <input type="file" ref="imageInput" accept="image/*" v-on:change="onFileSelected"><br/><br/>
         <button v-on:click="addNewItem">Add Item</button><br/><br/>
@@ -51,6 +52,8 @@ export default {
                         // add to vuex store
                         this.addItem(calculateExpiredTime(res.data))
                     }
+                }).catch(err => {
+                    alert(err.message)
                 })
             } else {
                 this.error = { message: "Please enter some text" }

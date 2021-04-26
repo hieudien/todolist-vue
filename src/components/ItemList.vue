@@ -30,8 +30,9 @@
             </table>
         </div>
         <div class="func-area">
-            <a :href="this.API_URL + '/item/csv'"><button>Export CSV</button></a>
-            <button>Import</button>
+            <a :href="this.API_URL + '/item/export'"><button>Export CSV</button></a>
+            <input type="file" id="upload-csv" hidden accept=".csv" @change="csvSelected">
+            <button for="upload-csv" onclick="document.getElementById('upload-csv').click()">Import</button>
         </div>
     </div>
 </template>
@@ -91,6 +92,20 @@ export default {
                 this.$store.state.todoList = calculateExpiredTime(res.data)
             }) 
         },
+        csvSelected: function(event) {
+            const file = event?.target?.files[0]
+            const formData = new FormData()
+            formData.append("csv", file)
+            axios.post(process.env.VUE_APP_API_URL + '/item/import', formData).then(() => {
+                getToDoList().then(res => {
+                    // map to store
+                    this.$store.state.todoList = calculateExpiredTime(res.data)
+                })
+                document.getElementById('all').click()
+            }).catch(err => {
+                alert(err.message)
+            })
+        }
     }
 }
 
@@ -100,6 +115,9 @@ function getToDoList(filter) {
         status = "/?status=" + filter
     }
     return axios.get(process.env.VUE_APP_API_URL + '/item' + status)
+    .catch(err => {
+        alert(err.message)
+    })
 }
 
 
